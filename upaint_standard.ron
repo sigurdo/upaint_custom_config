@@ -7,7 +7,7 @@ Config(
     autoreload_config: true,
 
     // Can be disabled so keystroke used to close message popup is also passed through as normal
-    message_popup_suppress_keystroke: true,
+    message_popup_suppress_keystroke: false,
 
     // Sets "n" as standard input mode
     input_mode_standard: InputMode("n"),
@@ -211,6 +211,11 @@ Config(
             base_keymaps: [("base")],
             keymaps: (
                 actions: Some({
+                    "øq": Quit( ),
+                    "ø1": ForceQuit( ),
+                    "øw": Save( ),
+                    "øx": SaveQuit( ),
+                    "ør": ReloadConfig( ),
                     ":": ChangeMode(mode: "c"),
                     "i": ChangeMode(mode: "i"), 
                     "I": ChangeMode(mode: "I"), 
