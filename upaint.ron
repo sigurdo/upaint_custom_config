@@ -312,6 +312,10 @@ Config(
             keymaps: (
                 actions: Some({
                     " ": LineDrawingStartNewLine( ),
+                    "L": Batch([
+                        LineDrawingStartNewLine( ),
+                        ChangeMode(mode: "n"),
+                    ]),
                     "<Enter>": Batch([
                         LineDrawingStartNewLine( ),
                         ChangeMode(mode: "n"),
@@ -342,7 +346,7 @@ Config(
                     ":": ChangeMode(mode: "c"),
                     "i": ChangeMode(mode: "i"), 
                     "I": ChangeMode(mode: "I"), 
-                    "gc": ChangeMode(mode: "p"),
+                    "gc ": ChangeMode(mode: "p"),
                     "v": ChangeMode(mode: "v"),
                     "L": ChangeMode(mode: "L"),
                     "gp": Pipette(
@@ -369,11 +373,11 @@ Config(
                         MirrorYank(slot: Active, axis: Y),
                     ]),
                     "<F5>": ReloadConfig( ),
-                    "zz": ChangeFocus(type_horizontal: Center, type_vertical: Center),
-                    "zl": ChangeFocus(type_horizontal: Start(0)),
-                    "zh": ChangeFocus(type_horizontal: End(0)),
-                    "zj": ChangeFocus(type_vertical: Start(0)),
-                    "zk": ChangeFocus(type_vertical: End(0)),
+                    "zz": ChangeFocus(horizontal: Center, vertical: Center),
+                    "zl": ChangeFocus(horizontal: Start(0)),
+                    "zh": ChangeFocus(horizontal: End(0)),
+                    "zj": ChangeFocus(vertical: Start(0)),
+                    "zk": ChangeFocus(vertical: End(0)),
                     "": [
                         Repeat(
                             count: FromKeystrokes,
@@ -419,9 +423,10 @@ Config(
                     "<Esc": ChangeMode(mode: "n"),
                 }),
                 operators: Some({
-                    "c": Colorize(ground: Foreground),
+                    "f": Colorize(ground: Foreground),
                     "b": Colorize(ground: Background),
                     "r": Replace(ch: FromKeystrokes),
+                    "c": Replace(ch: ' '),
                     "a": UpdateSelection(
                         operator: Add,
                         slot: Active,
@@ -488,7 +493,7 @@ Config(
                         direction: FromKeystrokes,
                         boundary_type: "END",
                     ),
-                    "f": FindChar(
+                    "F": FindChar(
                         direction: FromKeystrokes,
                         ch: FromKeystrokes,
                     ),
@@ -619,6 +624,7 @@ Config(
                     "": Same("FromKeystrokes"),
                 }),
                 keymap_u32: Some({ }),
+                keymap_i16: Some({ }),
                 selection_slot_specifications: Some({
                     "": Specific(FromKeystrokes),
                 }),
