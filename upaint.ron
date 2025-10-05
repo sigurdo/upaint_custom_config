@@ -290,6 +290,12 @@ Config(
             handler: Action,
             base_keymaps: [("n")],
             on_enter: Some(InitVisualRect( )),
+            mouse_actions: Some({
+                "Moved": MoveCursor,
+                "Down-l": MoveCursor,
+                "Drag-l": MoveCursor,
+                "Up-l": KeystrokesAlias("<Enter>"),
+            }),
             keymaps: (
                 actions: Some({
                     "o": VisualRectSwapCorners( ),
@@ -308,7 +314,14 @@ Config(
         ("L"): (
             handler: Action,
             base_keymaps: [("n")],
-            on_enter: Some(LineDrawingStartNewLine( )),
+            on_enter: Some(Batch([
+                LineDrawingStartNewLine( ),
+                MoveCursor(motion: GoToMouse( )),
+            ])),
+            mouse_actions: Some({
+                "Moved": MoveCursor,
+                "Down-l": StartLineDrawing,
+            }),
             keymaps: (
                 actions: Some({
                     " ": LineDrawingStartNewLine( ),
@@ -336,6 +349,15 @@ Config(
         ("n"): (
             handler: Action,
             base_keymaps: [("base")],
+            mouse_actions: Some({
+                "Down-l": MoveCursor,
+                "Drag-l": KeystrokesAlias( "v" ),
+                "Drag-r": MoveFocus,
+                "ScrollLeft": KeystrokesAlias( "zh" ),
+                "ScrollUp": KeystrokesAlias( "zk" ),
+                "ScrollDown": KeystrokesAlias( "zj" ),
+                "ScrollRight": KeystrokesAlias( "zl" ),
+            }),
             keymaps: (
                 actions: Some({
                     "øq": Quit( ),
@@ -374,10 +396,14 @@ Config(
                     ]),
                     "<F5>": ReloadConfig( ),
                     "zz": ChangeFocus(horizontal: Center, vertical: Center),
-                    "zl": ChangeFocus(horizontal: Start(0)),
-                    "zh": ChangeFocus(horizontal: End(0)),
-                    "zj": ChangeFocus(vertical: Start(0)),
-                    "zk": ChangeFocus(vertical: End(0)),
+                    "zl": ChangeFocus(horizontal: Pan(1)),
+                    "zh": ChangeFocus(horizontal: Pan(-1)),
+                    "zj": ChangeFocus(vertical: Pan(1)),
+                    "zk": ChangeFocus(vertical: Pan(-1)),
+                    "zL": ChangeFocus(horizontal: Start(0)),
+                    "zH": ChangeFocus(horizontal: End(0)),
+                    "zJ": ChangeFocus(vertical: Start(0)),
+                    "zK": ChangeFocus(vertical: End(0)),
                     "": [
                         Repeat(
                             count: FromKeystrokes,
