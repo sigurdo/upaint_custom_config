@@ -291,10 +291,7 @@ Config(
             base_keymaps: [("n")],
             on_enter: Some(InitVisualRect( )),
             mouse_actions: Some({
-                "Moved": MoveCursor,
-                "Down-l": MoveCursor,
-                "Drag-l": MoveCursor,
-                "Up-l": KeystrokesAlias("<Enter>"),
+                "Down-L": MoveCursor,
             }),
             keymaps: (
                 actions: Some({
@@ -311,16 +308,29 @@ Config(
                 }),
             ),
         ),
+        ("v-mouse"): (
+            handler: Action,
+            base_keymaps: [("base")],
+            on_enter: Some(InitVisualRect( )),
+            mouse_actions: Some({
+                "Moved": MoveCursor,
+                "Down-L": MoveCursor,
+                "Drag-L": MoveCursor,
+                "Up-L": Standard( Batch([
+                    HighlightTrail(motion: VisualRectMotion( )),
+                    ChangeMode(mode: "n"),
+                ]) ),
+            }),
+            keymaps: ( ),
+        ),
         ("L"): (
             handler: Action,
             base_keymaps: [("n")],
             on_enter: Some(Batch([
                 LineDrawingStartNewLine( ),
-                MoveCursor(motion: GoToMouse( )),
             ])),
             mouse_actions: Some({
-                "Moved": MoveCursor,
-                "Down-l": StartLineDrawing,
+                "Down-L": MoveCursor,
             }),
             keymaps: (
                 actions: Some({
@@ -346,17 +356,39 @@ Config(
                 }),
             ),
         ),
+        ("L-mouse"): (
+            handler: Action,
+            base_keymaps: [("n")],
+            on_enter: Some(Batch([
+                LineDrawingStartNewLine( ),
+                MoveCursor(motion: GoToMouse( )),
+            ])),
+            mouse_actions: Some({
+                "Moved": MoveCursor,
+                "Down-L": StartLineDrawing,
+                "Drag-R": MoveFocus,
+            }),
+            keymaps: (
+                actions: Some({
+                    " ": LineDrawingStartNewLine( ),
+                    "<Enter>": Batch([
+                        LineDrawingStartNewLine( ),
+                        ChangeMode(mode: "n"),
+                    ]),
+                }),
+            ),
+        ),
         ("n"): (
             handler: Action,
             base_keymaps: [("base")],
             mouse_actions: Some({
-                "Down-l": MoveCursor,
-                "Drag-l": KeystrokesAlias( "v" ),
-                "Drag-r": MoveFocus,
-                "ScrollLeft": KeystrokesAlias( "zh" ),
-                "ScrollUp": KeystrokesAlias( "zk" ),
-                "ScrollDown": KeystrokesAlias( "zj" ),
-                "ScrollRight": KeystrokesAlias( "zl" ),
+                "Down-L": MoveCursor,
+                "Drag-L": Standard( ChangeMode(mode:"v-mouse")),
+                "Drag-R": MoveFocus,
+                "ScrollLeft": Standard( ChangeFocus(horizontal: Pan(-1)) ),
+                "ScrollDown": Standard( ChangeFocus(vertical: Pan(1)) ),
+                "ScrollUp": Standard( ChangeFocus(vertical: Pan(-1)) ),
+                "ScrollRight": Standard( ChangeFocus(horizontal: Pan(1)) ),
             }),
             keymaps: (
                 actions: Some({
@@ -371,6 +403,7 @@ Config(
                     "gc ": ChangeMode(mode: "p"),
                     "v": ChangeMode(mode: "v"),
                     "L": ChangeMode(mode: "L"),
+                    "<C-d>": ChangeMode(mode: "L-mouse"),
                     "gp": Pipette(
                         ground: FromKeystrokes,
                         slot: Active,
@@ -396,10 +429,10 @@ Config(
                     ]),
                     "<F5>": ReloadConfig( ),
                     "zz": ChangeFocus(horizontal: Center, vertical: Center),
-                    "zl": ChangeFocus(horizontal: Pan(1)),
                     "zh": ChangeFocus(horizontal: Pan(-1)),
                     "zj": ChangeFocus(vertical: Pan(1)),
                     "zk": ChangeFocus(vertical: Pan(-1)),
+                    "zl": ChangeFocus(horizontal: Pan(1)),
                     "zL": ChangeFocus(horizontal: Start(0)),
                     "zH": ChangeFocus(horizontal: End(0)),
                     "zJ": ChangeFocus(vertical: Start(0)),
