@@ -257,12 +257,12 @@ Config(
                 jump: Diagonals,
                 direction: FromKeystrokes,
             )),
-            keymaps: (
+            keymaps: Some((
                 actions: Some({
                     "<BS>": MoveCursorBackInsertChar(ch: ' '),
                     "": InsertCharMoveCursor(ch: FromKeystrokes),
                 }),
-            ),
+            )),
         ),
         ("I"): (
             handler: Action,
@@ -271,29 +271,23 @@ Config(
                 jump: NoJump,
                 direction: FromKeystrokes,
             )),
-            keymaps: ( ),
         ),
         ("c"): (
             handler: Command,
             base_keymaps: [],
             on_enter: Some(InitCommandLine( )),
-            keymaps: ( ),
         ),
         ("p"): (
                 
             handler: ColorPicker,
             base_keymaps: [],
             on_enter: Some(InitColorPicker(target: ColorOrSlot(Active))),
-            keymaps: ( ),
         ),
         ("v"): (
             handler: Action,
             base_keymaps: [("n")],
             on_enter: Some(InitVisualRect( )),
-            mouse_actions: Some({
-                "Down-L": MoveCursor,
-            }),
-            keymaps: (
+            keymaps: Some((
                 actions: Some({
                     "o": VisualRectSwapCorners( ),
                     "<Enter>": Batch([
@@ -306,7 +300,7 @@ Config(
                         return_to_standard_mode: true,
                     ),
                 }),
-            ),
+            )),
         ),
         ("v-mouse"): (
             handler: Action,
@@ -321,7 +315,6 @@ Config(
                     ChangeMode(mode: "n"),
                 ]) ),
             }),
-            keymaps: ( ),
         ),
         ("L"): (
             handler: Action,
@@ -329,10 +322,7 @@ Config(
             on_enter: Some(Batch([
                 LineDrawingStartNewLine( ),
             ])),
-            mouse_actions: Some({
-                "Down-L": MoveCursor,
-            }),
-            keymaps: (
+            keymaps: Some((
                 actions: Some({
                     " ": LineDrawingStartNewLine( ),
                     "L": Batch([
@@ -354,11 +344,11 @@ Config(
                         MoveCursor(motion: FromKeystrokes),
                     ],
                 }),
-            ),
+            )),
         ),
         ("L-mouse"): (
             handler: Action,
-            base_keymaps: [("n")],
+            base_keymaps: [("base")],
             on_enter: Some(Batch([
                 LineDrawingStartNewLine( ),
                 MoveCursor(motion: GoToMouse( )),
@@ -367,8 +357,12 @@ Config(
                 "Moved": MoveCursor,
                 "Down-L": StartLineDrawing,
                 "Drag-R": MoveFocus,
+                "ScrollLeft": Standard( ChangeFocus(horizontal: Pan(-1)) ),
+                "ScrollDown": Standard( ChangeFocus(vertical: Pan(1)) ),
+                "ScrollUp": Standard( ChangeFocus(vertical: Pan(-1)) ),
+                "ScrollRight": Standard( ChangeFocus(horizontal: Pan(1)) ),
             }),
-            keymaps: (
+            keymaps: Some((
                 actions: Some({
                     " ": LineDrawingStartNewLine( ),
                     "<Enter>": Batch([
@@ -376,21 +370,21 @@ Config(
                         ChangeMode(mode: "n"),
                     ]),
                 }),
-            ),
+            )),
         ),
         ("n"): (
             handler: Action,
             base_keymaps: [("base")],
             mouse_actions: Some({
                 "Down-L": MoveCursor,
-                "Drag-L": Standard( ChangeMode(mode:"v-mouse")),
+                "Drag-L": Standard( ChangeMode(mode: "v-mouse") ),
                 "Drag-R": MoveFocus,
                 "ScrollLeft": Standard( ChangeFocus(horizontal: Pan(-1)) ),
                 "ScrollDown": Standard( ChangeFocus(vertical: Pan(1)) ),
                 "ScrollUp": Standard( ChangeFocus(vertical: Pan(-1)) ),
                 "ScrollRight": Standard( ChangeFocus(horizontal: Pan(1)) ),
             }),
-            keymaps: (
+            keymaps: Some((
                 actions: Some({
                     "øq": Quit( ),
                     "ø1": ForceQuit( ),
@@ -470,12 +464,12 @@ Config(
                     "U": Redo( ),
                     "@": MacroExecute(slot: FromKeystrokes),
                 }),
-            ),
+            )),
         ),
         ("base"): (
             handler: Action,
             base_keymaps: [],
-            keymaps: (
+            keymaps: Some((
                 actions: Some({
                     "<C-c>": ChangeMode(mode: "n"),
                     "<C-k>": ChangeMode(mode: "n"),
@@ -694,7 +688,7 @@ Config(
                 yank_slot_specifications: Some({
                     "": Specific(FromKeystrokes),
                 }),
-            ),
+            )),
         ),
     },
 )
