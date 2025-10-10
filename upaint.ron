@@ -252,7 +252,7 @@ Config(
     input_mode: {
         ("i"): (
             handler: Action,
-            base_keymaps: [("n")],
+            extends: [("n")],
             on_enter: Some(SetCursorPositionIterator(
                 jump: Diagonals,
                 direction: FromKeystrokes,
@@ -266,7 +266,7 @@ Config(
         ),
         ("I"): (
             handler: Action,
-            base_keymaps: [("i")],
+            extends: [("i")],
             on_enter: Some(SetCursorPositionIterator(
                 jump: NoJump,
                 direction: FromKeystrokes,
@@ -274,18 +274,18 @@ Config(
         ),
         ("c"): (
             handler: Command,
-            base_keymaps: [],
+            extends: [],
             on_enter: Some(InitCommandLine( )),
         ),
         ("p"): (
                 
             handler: ColorPicker,
-            base_keymaps: [],
+            extends: [],
             on_enter: Some(InitColorPicker(target: ColorOrSlot(Active))),
         ),
         ("v"): (
             handler: Action,
-            base_keymaps: [("n")],
+            extends: [("n")],
             on_enter: Some(InitVisualRect( )),
             keymaps: Some((
                 actions: Some({
@@ -304,7 +304,7 @@ Config(
         ),
         ("v-mouse"): (
             handler: Action,
-            base_keymaps: [("base")],
+            extends: [("base")],
             on_enter: Some(InitVisualRect( )),
             mouse_actions: Some({
                 "Moved": MoveCursor,
@@ -318,7 +318,7 @@ Config(
         ),
         ("L"): (
             handler: Action,
-            base_keymaps: [("n")],
+            extends: [("n")],
             on_enter: Some(Batch([
                 LineDrawingStartNewLine( ),
             ])),
@@ -348,7 +348,7 @@ Config(
         ),
         ("L-mouse"): (
             handler: Action,
-            base_keymaps: [("base")],
+            extends: [("base")],
             on_enter: Some(Batch([
                 LineDrawingStartNewLine( ),
                 MoveCursor(motion: GoToMouse( )),
@@ -374,7 +374,7 @@ Config(
         ),
         ("n"): (
             handler: Action,
-            base_keymaps: [("base")],
+            extends: [("base")],
             mouse_actions: Some({
                 "Down-L": MoveCursor,
                 "Drag-L": Standard( ChangeMode(mode: "v-mouse") ),
@@ -468,7 +468,7 @@ Config(
         ),
         ("base"): (
             handler: Action,
-            base_keymaps: [],
+            extends: [],
             keymaps: Some((
                 actions: Some({
                     "<C-c>": ChangeMode(mode: "n"),
