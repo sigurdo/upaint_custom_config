@@ -10,10 +10,10 @@ Config(
     message_popup_suppress_keystroke: false,
 
     // Sets "n" as standard input mode
-    input_mode_standard: InputMode("n"),
+    input_mode_standard: "n",
 
     // Sets input mode to "n" at launch
-    input_mode_initial: InputMode("n"),
+    input_mode_initial: "n",
 
     // Row/column numbers
     numbers: (
@@ -250,44 +250,42 @@ Config(
     color_theme: "basic",
 
     input_mode: {
-        ("i"): (
+        "i": (
             handler: Action,
-            extends: [("n")],
-            on_enter: Some(SetCursorPositionIterator(
+            extends: ["n"],
+            on_enter: SetCursorPositionIterator(
                 jump: Diagonals,
                 direction: FromKeystrokes,
-            )),
-            keymaps: Some((
+            ),
+            keymaps: (
                 actions: Some({
                     "<BS>": MoveCursorBackInsertChar(ch: ' '),
                     "": InsertCharMoveCursor(ch: FromKeystrokes),
                 }),
-            )),
+            ),
         ),
-        ("I"): (
+        "I": (
             handler: Action,
-            extends: [("i")],
-            on_enter: Some(SetCursorPositionIterator(
+            extends: ["i"],
+            on_enter: SetCursorPositionIterator(
                 jump: NoJump,
                 direction: FromKeystrokes,
-            )),
+            ),
         ),
-        ("c"): (
+        "c": (
             handler: Command,
-            extends: [],
-            on_enter: Some(InitCommandLine( )),
+            on_enter: InitCommandLine( ),
         ),
-        ("p"): (
+        "p": (
                 
             handler: ColorPicker,
-            extends: [],
-            on_enter: Some(InitColorPicker(target: ColorOrSlot(Active))),
+            on_enter: InitColorPicker(target: ColorOrSlot(Active)),
         ),
-        ("v"): (
+        "v": (
             handler: Action,
-            extends: [("n")],
-            on_enter: Some(InitVisualRect( )),
-            keymaps: Some((
+            extends: ["n"],
+            on_enter: InitVisualRect( ),
+            keymaps: (
                 actions: Some({
                     "o": VisualRectSwapCorners( ),
                     "<Enter>": Batch([
@@ -300,13 +298,13 @@ Config(
                         return_to_standard_mode: true,
                     ),
                 }),
-            )),
+            ),
         ),
-        ("v-mouse"): (
+        "v-mouse": (
             handler: Action,
-            extends: [("base")],
-            on_enter: Some(InitVisualRect( )),
-            mouse_actions: Some({
+            extends: ["base"],
+            on_enter: InitVisualRect( ),
+            mouse_actions: {
                 "Moved": MoveCursor,
                 "Down-L": MoveCursor,
                 "Drag-L": MoveCursor,
@@ -314,15 +312,15 @@ Config(
                     HighlightTrail(motion: VisualRectMotion( )),
                     ChangeMode(mode: "n"),
                 ]) ),
-            }),
+            },
         ),
-        ("L"): (
+        "L": (
             handler: Action,
-            extends: [("n")],
-            on_enter: Some(Batch([
+            extends: ["n"],
+            on_enter: Batch([
                 LineDrawingStartNewLine( ),
-            ])),
-            keymaps: Some((
+            ]),
+            keymaps: (
                 actions: Some({
                     " ": LineDrawingStartNewLine( ),
                     "L": Batch([
@@ -344,16 +342,16 @@ Config(
                         MoveCursor(motion: FromKeystrokes),
                     ],
                 }),
-            )),
+            ),
         ),
-        ("L-mouse"): (
+        "L-mouse": (
             handler: Action,
-            extends: [("base")],
-            on_enter: Some(Batch([
+            extends: ["base"],
+            on_enter: Batch([
                 LineDrawingStartNewLine( ),
                 MoveCursor(motion: GoToMouse( )),
-            ])),
-            mouse_actions: Some({
+            ]),
+            mouse_actions: {
                 "Moved": MoveCursor,
                 "Down-L": StartLineDrawing,
                 "Drag-R": MoveFocus,
@@ -361,8 +359,8 @@ Config(
                 "ScrollDown": Standard( ChangeFocus(vertical: Pan(1)) ),
                 "ScrollUp": Standard( ChangeFocus(vertical: Pan(-1)) ),
                 "ScrollRight": Standard( ChangeFocus(horizontal: Pan(1)) ),
-            }),
-            keymaps: Some((
+            },
+            keymaps: (
                 actions: Some({
                     " ": LineDrawingStartNewLine( ),
                     "<Enter>": Batch([
@@ -370,12 +368,12 @@ Config(
                         ChangeMode(mode: "n"),
                     ]),
                 }),
-            )),
+            ),
         ),
-        ("n"): (
+        "n": (
             handler: Action,
-            extends: [("base")],
-            mouse_actions: Some({
+            extends: ["base"],
+            mouse_actions: {
                 "Down-L": MoveCursor,
                 "Drag-L": Standard( ChangeMode(mode: "v-mouse") ),
                 "Drag-R": MoveFocus,
@@ -383,8 +381,8 @@ Config(
                 "ScrollDown": Standard( ChangeFocus(vertical: Pan(1)) ),
                 "ScrollUp": Standard( ChangeFocus(vertical: Pan(-1)) ),
                 "ScrollRight": Standard( ChangeFocus(horizontal: Pan(1)) ),
-            }),
-            keymaps: Some((
+            },
+            keymaps: (
                 actions: Some({
                     "øq": Quit( ),
                     "ø1": ForceQuit( ),
@@ -464,12 +462,11 @@ Config(
                     "U": Redo( ),
                     "@": MacroExecute(slot: FromKeystrokes),
                 }),
-            )),
+            ),
         ),
-        ("base"): (
+        "base": (
             handler: Action,
-            extends: [],
-            keymaps: Some((
+            keymaps: (
                 actions: Some({
                     "<C-c>": ChangeMode(mode: "n"),
                     "<C-k>": ChangeMode(mode: "n"),
@@ -688,7 +685,7 @@ Config(
                 yank_slot_specifications: Some({
                     "": Specific(FromKeystrokes),
                 }),
-            )),
+            ),
         ),
     },
 )
